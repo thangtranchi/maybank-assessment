@@ -1,0 +1,136 @@
+<!-- <nav class="d-flex justify-content-center">
+  <a routerLink="/">Home</a> &nbsp;|&nbsp;
+  <a routerLink="customer">Customer</a> &nbsp;|&nbsp;
+  <a routerLink="/detail">Detail</a>
+</nav> -->
+<img style="width:5%" src="./logo.png" alt="image" > MAYBANK ASSESSMENT
+  <h2 class="row d-flex justify-content-center">TRANSACTION MANAGEMENT</h2>
+<div class="container my-2">
+  <!-- Search -->
+  <form [formGroup]="searchForm" (ngSubmit)="handleSearch()">
+    <div class="row d-flex justify-content-center">
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="mt-2">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Customer ID"
+            formControlName="customerId"
+          />
+		</div> 
+        <div class="input-group my-2">		
+		  <input
+            type="text"
+            class="form-control"
+            placeholder="Description"
+            formControlName="desc"
+          />
+        </div>
+        <div class="input-group my-2">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Account Number"
+            formControlName="accountNumber"
+          />
+          
+        </div>
+		<button class="btn btn-primary" type="submit">Search</button>
+      </div>
+    </div>
+  </form>
+
+  <!-- Listing -->
+  <div class="mt-5 row d-flex justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8">
+      <table class="table table-striped table-hover">
+        <tr class="bg-primary text-white" style="height: 40px">
+          <th class="px-2">ID.</th>
+          <th style="min-width: 100px">Account Number</th>
+          <th style="min-width: 100px">Customer ID</th>
+          <th style="min-width: 100px">Description</th>
+		  <th style="min-width: 100px">Transaction Amount</th>
+		  <th style="min-width: 100px">Transaction Date</th>
+		  <th style="min-width: 100px">Transaction Time</th>
+        </tr>
+
+        @for (customer of customerList; track customer.id) {
+        <tr style="height: 40px">
+          
+          <td 
+            class="text-primary text-decoration-underline px-2"
+			(click)="viewDetail(customer.id)"
+          >
+            {{ customer.id }}
+          </td>
+		  <td >{{ customer.accountNumber }}</td>
+          <td>{{ customer.customerId }}</td>
+          <td>{{ customer.description }}</td>
+		  <td>{{ customer.trxAmount }}</td>
+		  <td>{{ customer.trxDate }}</td>
+		  <td>{{ customer.trxTime }}</td>
+        </tr>
+        }
+      </table>
+    </div>
+  </div>
+ <mat-paginator 
+        
+        [hidePageSize]="false"           
+        [pageSizeOptions]="[10]" 
+		[pageIndex]="currentPage"
+		[length]="totalItems"
+              (page)="pageChanged($event)"  
+        showFirstLastButtons>            
+    </mat-paginator>
+	 
+ 
+  <!-- Edit -->
+  
+ 
+  
+  <div id="myModal" class="modal">
+  <form style="display:none" id="updateForm"  [formGroup]="updateForm" (ngSubmit)="handleUpdate()">
+    <div class="row d-flex justify-content-center, modal-content">
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="mt-1">
+		  <label style="font-weight:bold;">CUSTOMER ID:  </label>
+          <label class="px-2">{{ customer.customerId }}</label>   
+            
+            
+        </div>
+		<div >
+		  <label style="font-weight:bold;">ACCOUNT NUMBER:  </label>
+          <label class="px-2">{{ customer.accountNumber }}</label>   
+            
+            
+        </div>
+        <div >
+		<label style="font-weight:bold;">DESCRIPTION</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Name"
+            formControlName="description"
+            value="{{ customer.description }}"
+          />
+		   <input style="display:none" 
+            type="text"
+            class="form-control"
+            placeholder="ID"
+            formControlName="id"
+            value="{{ customer.id }}"
+          />
+        </div>
+        <div class="input-group my-2">       
+          <button id="buttonUpd" class="btn btn-primary" type="submit">Update</button>
+		  
+		  <button style='--bs-btn-bg: red;--bs-btn-border-color :red' id="buttonClose" class="btn btn-primary" type="button" (click)="closeModal();">Close</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+ 
+  <!-- <router-outlet /> -->
+</div>
